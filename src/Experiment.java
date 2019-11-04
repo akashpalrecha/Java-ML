@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.naming.InitialContext;
 
 public class Experiment{
 	public void exec() throws Exception{
@@ -15,5 +16,11 @@ public class Experiment{
 	public static void main(String[] args)throws Exception{
 		BinaryClassifierData data = new BinaryClassifierData(0.2);
 		System.out.println(data.length());		
+		System.out.println("\n\nPRINTING ONE DATA LINE\n\n");
+		BinaryDataSample sample = data.getDataIterator().next();
+		for(int i=0; i < sample.x.length; i++) {
+			System.out.println(sample.x[i]);
+		}
+		System.out.println("\n\nLABEL : " + sample.y);
 	}
 }

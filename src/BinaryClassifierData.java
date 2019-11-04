@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -40,10 +41,16 @@ public class BinaryClassifierData {
 			this.DATA.add(new BinaryDataSample(x, y));
 			
 		}
+		train.close();
+		label.close();
 	}
 	
 	public int length() throws FileNotFoundException{
 		return this.DATA.size();
+	}
+	
+	public Iterator<BinaryDataSample> getDataIterator() {
+		return this.DATA.iterator();
 	}
 
 }

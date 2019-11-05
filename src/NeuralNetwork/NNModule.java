@@ -4,7 +4,9 @@ public abstract class NNModule {
 	
 	public double[][] weights;
 	public double[][] bias;
-	public double[][] gradients;
+	public double[][] gradients_w;
+	public double[][] gradients_inp;
+	public double[][] gradients_bias;
 	public double[][] input;
 	public double[][] output;
 	
@@ -12,10 +14,8 @@ public abstract class NNModule {
 	
 	public abstract double[][] forward(double[][] input) throws Exception;
 	
-	public abstract double[][] backward(double[][] grad_in);
+	public abstract double[][] backward(double[][] grad_in, String method) throws Exception;
 	
-	public abstract void save_gradients(double[][] grad, String type);
-	
-	public abstract void step(double lr);
+	public abstract void step(double lr) throws Exception;
 
 }

@@ -20,7 +20,7 @@ public class DeepMath {
 		res = new double[a_rows][b_cols];
 		
 		for(int i = 0; i < a_rows; i++) {
-			for(int j = 0; j < b_cols; i++) {
+			for(int j = 0; j < b_cols; j++) {
 				double sum = 0;
 				for(int k = 0; k < a_cols; k++) {
 					sum += a[i][k] * b[k][j];
@@ -30,6 +30,61 @@ public class DeepMath {
 		}
 		
 		return res;
+	}
+	
+	public static double[][] matAdd(double[][] a, double[][] b) throws Exception{
+		if(a.length != b.length || a[0].length != b[0].length) {
+			throw new Exception("Matrix Dimension mismatch. A="+a.length+","+a[0].length+" . B="+ b.length +"," + b[0].length);
+		}
+		
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] + b[i][j]; 
+			}
+		}
+		
+		return sum;
+	}
+	
+	public static double[][] matSub(double[][] a, double[][] b) throws Exception{
+		if(a.length != b.length || a[0].length != b[0].length) {
+			throw new Exception("Matrix Dimension mismatch. A="+a.length+","+a[0].length+" . B="+ b.length +"," + b[0].length);
+		}
+		
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] - b[i][j]; 
+			}
+		}
+		
+		return sum;
+	}
+	
+	public static double[][] matElementwiseMult(double[][] a, double[][] b) throws Exception{
+		if(a.length != b.length || a[0].length != b[0].length) {
+			throw new Exception("Matrix Dimension mismatch. A="+a.length+","+a[0].length+" . B="+ b.length +"," + b[0].length);
+		}
+		
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] * b[i][j]; 
+			}
+		}
+		
+		return sum;
+	}
+	
+	public static double[][] matScale(double[][] a, double scale) throws Exception{
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] * scale; 
+			}
+		}
+		return sum;
 	}
 	
 	public static double[][] transpose(double[][] a){
@@ -86,8 +141,36 @@ public class DeepMath {
 		}
 	}
 	
-	private static double getGaussian(double aMean, double aVariance){
+	public static double getGaussian(double aMean, double aVariance){
 	    return aMean + fRandom.nextGaussian() * aVariance;
 	}
 	
+	public static void printMatrix(double[][] a) {
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				System.out.print(a[i][j] + "\t"); 
+			}
+			System.out.println();
+		}
+	}
+	
+	public static void printShape(double[][] a) {
+		System.out.println(a.length + " " + a[0].length);
+	}
+	
+	public static double[][] getRandomMatrix(int rows, int columns){
+		double[][] a = new double[rows][columns];
+		initializeGaussian(a, 0.0, 1.0);
+		return a;
+	}
+	
+	public static double[][] getRangeMatrix(int rows, int columns, double start){
+		double[][] a = new double[rows][columns];
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				a[i][j] = start + i * columns + j; 
+			}
+		}
+		return a;
+	}
 }

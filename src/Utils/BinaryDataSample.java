@@ -1,14 +1,15 @@
+package Utils;
 
 public class BinaryDataSample {
-	public double[] x;
+	public double[][] x;
 	public int y;
 	
-	public BinaryDataSample(double[] x, int y) {
+	public BinaryDataSample(double[][] x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public double[] getX() {
+	public double[][] getX() {
 		return x;
 	}
 

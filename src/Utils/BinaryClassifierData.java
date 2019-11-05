@@ -1,9 +1,9 @@
+package Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.io.FileNotFoundException;
 
 public class BinaryClassifierData {
@@ -12,6 +12,8 @@ public class BinaryClassifierData {
 	public String label_path;
 	public double val_split;
 	public ArrayList<BinaryDataSample> DATA;
+	public ArrayList<BinaryDataSample> TRAIN_DATA;
+	public ArrayList<BinaryDataSample> VALID_DATA;
 	
 	public BinaryClassifierData(double val_split) throws FileNotFoundException {
 		this.path = "Files/Binary-classifier-data/";
@@ -20,6 +22,7 @@ public class BinaryClassifierData {
 		this.val_split = val_split;
 		DATA = new ArrayList<BinaryDataSample>();
 		this.populateData();
+		this.splitData();
 	}
 	
 	public void populateData() throws FileNotFoundException{
@@ -34,9 +37,9 @@ public class BinaryClassifierData {
 			String[] x_str = train.next().split(",");
 			int y = Integer.parseInt(label.next());
 			
-			double[] x = new double[x_str.length];
+			double[][] x = new double[0][x_str.length];
 			for(int i = 0; i < x_str.length; i++) {
-				x[i] = Double.parseDouble(x_str[i]);
+				x[0][i] = Double.parseDouble(x_str[i]);
 			}
 			this.DATA.add(new BinaryDataSample(x, y));
 			
@@ -49,8 +52,27 @@ public class BinaryClassifierData {
 		return this.DATA.size();
 	}
 	
-	public Iterator<BinaryDataSample> getDataIterator() {
+	public Iterator<BinaryDataSample> getDataIterator(String type) {
+		if(type.equals("train")) {
+			return this.TRAIN_DATA.iterator();
+		}
+		else if(type.equals("valid")) {
+			return this.VALID_DATA.iterator();
+		}
+		else {
 		return this.DATA.iterator();
+		}
+	}
+	
+	public void splitData() {
+		int split = (int)(this.DATA.size() * this.val_split);
+		
+		for(int i = 0; i < split; i++) {
+			this.VALID_DATA.add(this.DATA.get(i));
+		}
+		for(int i = split; i < this.DATA.size(); i++) {
+			this.TRAIN_DATA.add(this.DATA.get(i));
+		}
 	}
 
 }

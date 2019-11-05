@@ -1,7 +1,9 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.naming.InitialContext;
+
+import Utils.BinaryClassifierData;
+import Utils.BinaryDataSample;
 
 public class Experiment{
 	public void exec() throws Exception{
@@ -17,7 +19,7 @@ public class Experiment{
 		BinaryClassifierData data = new BinaryClassifierData(0.2);
 		System.out.println(data.length());		
 		System.out.println("\n\nPRINTING ONE DATA LINE\n\n");
-		BinaryDataSample sample = data.getDataIterator().next();
+		BinaryDataSample sample = data.getDataIterator("train").next();
 		for(int i=0; i < sample.x.length; i++) {
 			System.out.println(sample.x[i]);
 		}

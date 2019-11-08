@@ -2,6 +2,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
+import NeuralNetwork.Linear;
+import NeuralNetwork.ReLu;
 import Utils.BinaryClassifierData;
 import Utils.BinaryDataSample;
 import Utils.DeepMath;
@@ -48,7 +50,7 @@ public class Experiment{
 		DeepMath.printMatrix(c);
 	}
 
-	public static void main(String[] args) throws Exception{
+	public static void matrixOperationsCheck() throws Exception{
 //		double[][] a = DeepMath.getRandomMatrix(3,  4);
 		double[][] a = DeepMath.getRangeMatrix(4, 3, 0);
 		double[][] b = DeepMath.getRangeMatrix(4, 3, 0);
@@ -64,4 +66,42 @@ public class Experiment{
 		System.out.println();
 		DeepMath.printMatrix(DeepMath.matmul(a, DeepMath.transpose(b)));
 	}
+	
+	public static void linearCheck() throws Exception{
+		Linear lin = new Linear(4,  10);
+		double[][] x = DeepMath.getRangeMatrix(1, 4, 1);
+		double[][] out = lin.forward(x);
+//		DeepMath.printMatrix(out);
+		double[][] grad = lin.backward(out, "zero");
+		DeepMath.printMatrix(grad);
+		System.out.println();
+		DeepMath.printMatrix(lin.gradients_bias);
+		System.out.println();
+		DeepMath.printMatrix(lin.gradients_w);
+		System.out.println();
+		DeepMath.printMatrix(lin.gradients_inp);
+	}
+	
+	public static void reluCheck() throws Exception{
+		ReLu relu = new ReLu();
+		double[][] x = DeepMath.getRangeMatrix(4, 6, -6);
+		double[][] out = relu.forward(x);
+		double[][] grad= relu.backward(DeepMath.getRangeMatrix(4, 6, 1), "add");
+		DeepMath.printMatrix(x);
+		System.out.println();
+		DeepMath.printMatrix(out);
+		System.out.println();
+		DeepMath.printMatrix(DeepMath.getRangeMatrix(4, 6, 1));
+		System.out.println();
+		DeepMath.printMatrix(grad);
+	}
+	
+	
+	
+	public static void main(String[] args) throws Exception{
+//		linearCheck();
+//		reluCheck();
+		
+	}
+	
 }

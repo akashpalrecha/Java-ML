@@ -87,6 +87,26 @@ public class DeepMath {
 		return sum;
 	}
 	
+	public static double[][] matScalarAdd(double[][] a, double scalar) throws Exception{
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] + scalar; 
+			}
+		}
+		return sum;
+	}
+	
+	public static double[][] matScalarSub(double[][] a, double scalar) throws Exception{
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] - scalar; 
+			}
+		}
+		return sum;
+	}
+	
 	public static double[][] transpose(double[][] a){
 		double[][] aT = new double[a[0].length][a.length];
 		
@@ -173,4 +193,36 @@ public class DeepMath {
 		}
 		return a;
 	}
+	
+	public static double[][] getZeroMatrix(int rows, int columns){
+		double[][] a = new double[rows][columns];
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				a[i][j] = 0; 
+			}
+		}
+		return a;
+	}
+	
+	public static double[][] getConstantMatrix(int rows, int columns, double constant) throws Exception{
+		double[][] a = matScalarAdd(getZeroMatrix(rows,  columns), constant);
+		return a;
+	}
+	
+	// BASIC MATH OPERATIONS WITH MATRICES
+	
+	public static double exp(double x) throws Exception{
+		return Math.exp(x);
+	}
+	
+	public static double[][] matExp(double[][] a) throws Exception{
+		double[][] a_exp = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				a_exp[i][j] = exp(a[i][j]); 
+			}
+		}
+		return a_exp;
+	}
+	
 }

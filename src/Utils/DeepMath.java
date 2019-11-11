@@ -77,6 +77,21 @@ public class DeepMath {
 		return sum;
 	}
 	
+	public static double[][] matElementwiseDiv(double[][] a, double[][] b) throws Exception{
+		if(a.length != b.length || a[0].length != b[0].length) {
+			throw new Exception("Matrix Dimension mismatch. A="+a.length+","+a[0].length+" . B="+ b.length +"," + b[0].length);
+		}
+		
+		double[][] sum = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				sum[i][j] = a[i][j] / b[i][j]; 
+			}
+		}
+		
+		return sum;
+	}
+	
 	public static double[][] matScale(double[][] a, double scale) throws Exception{
 		double[][] sum = new double[a.length][a[0].length];
 		for(int i = 0; i < a.length; i++) {

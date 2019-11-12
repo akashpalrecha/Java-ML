@@ -13,6 +13,7 @@ public class Linear extends NNModule {
 		
 		this.weights = new double[features_in][features_out];
 		this.gradients_w = new double[features_in][features_out];
+		this.gradients_bias = new double[1][features_out];
 		this.initializeWeights("gaussian");
 	}
 	
@@ -47,14 +48,15 @@ public class Linear extends NNModule {
 		double[][] t_gradients_bias = grad_in;
 		
 		if(method.equals("add")) {
-			this.gradients_bias = DeepMath.matAdd(this.gradients_bias, gradients_bias);
-			this.gradients_w = DeepMath.matAdd(this.gradients_w, gradients_w);
+			this.gradients_bias = DeepMath.matAdd(this.gradients_bias, t_gradients_bias);
+			this.gradients_w = DeepMath.matAdd(this.gradients_w, t_gradients_w);
 		}
 		else if(method.equals("zero")) {
 			this.gradients_bias = t_gradients_bias;
 			this.gradients_w = t_gradients_w;
 		}
 		
+//		this.clip_gradients(1);
 		return this.gradients_inp;
 	}
 
@@ -65,4 +67,9 @@ public class Linear extends NNModule {
 		this.bias = DeepMath.matSub(this.bias, DeepMath.matScale(this.gradients_bias, lr));
 	}
 
+	public void zero_grad() throws Exception{
+		this.gradients_w = DeepMath.getConstantMatrix(this.gradients_w.length,  this.gradients_w[0].length, 0);
+		this.gradients_bias = DeepMath.getConstantMatrix(this.gradients_bias.length,  this.gradients_bias[0].length, 0);
+	}
+	
 }

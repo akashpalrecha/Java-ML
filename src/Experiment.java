@@ -4,8 +4,8 @@ import javax.imageio.ImageIO;
 
 import NeuralNetwork.Linear;
 import NeuralNetwork.ReLu;
-import Utils.BinaryClassifierData;
-import Utils.BinaryDataSample;
+import Utils.ClassifierData;
+import Utils.DataSample;
 import Utils.DeepMath;
 
 public class Experiment{
@@ -19,14 +19,14 @@ public class Experiment{
 	}
 	
 	public static void data_check()throws Exception{
-		BinaryClassifierData data = new BinaryClassifierData(0.2);
-		System.out.println(data.length());		
-		System.out.println("\n\nPRINTING ONE DATA LINE\n\n");
-		BinaryDataSample sample = data.getDataIterator("train").next();
-		for(int i=0; i < sample.x.length; i++) {
-			System.out.println(sample.x[i]);
-		}
-		System.out.println("\n\nLABEL : " + sample.y);
+////		ClassifierData data = new ClassifierData(0.2);
+//		System.out.println(data.length());		
+//		System.out.println("\n\nPRINTING ONE DATA LINE\n\n");
+//		DataSample sample = data.getDataIterator("train").next();
+//		for(int i=0; i < sample.x[0].length; i++) {
+//			System.out.println(sample.x[0][i]);
+//		}
+//		System.out.println("\n\nLABEL : " + sample.y[0]);
 	}
 	
 	public static void matrixMultCheck() throws Exception{
@@ -98,10 +98,11 @@ public class Experiment{
 	
 	
 	
-	public static void main(String[] args) throws Exception{
-//		linearCheck();
-//		reluCheck();
-		
-	}
+//	public static void main(String[] args) throws Exception{
+////		linearCheck();
+////		reluCheck();
+//		data_check();
+//		
+//	}
 	
 }

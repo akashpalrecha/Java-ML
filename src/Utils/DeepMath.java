@@ -3,7 +3,7 @@ import java.util.Random;
 
 
 public class DeepMath {
-	private static Random fRandom = new Random();
+	public static Random fRandom = new Random();
 	
 	public static double[][] matmul(double[][] a, double[][] b) throws Exception{
 		double[][] res;
@@ -162,7 +162,8 @@ public class DeepMath {
 	public static void initializeGaussian(double[][] a, double mean, double variance) {
 		for(int i = 0; i < a.length; i++) {
 			for(int j = 0; j < a[0].length; j++) {
-				a[i][j] = getGaussian(mean,  variance); 
+				// Kaiming He Init
+				a[i][j] = getGaussian(mean,  variance) * Math.sqrt(2.0 / a.length); 
 			}
 		}
 	}
@@ -229,6 +230,20 @@ public class DeepMath {
 	public static double exp(double x) throws Exception{
 		return Math.exp(x);
 	}
+
+	public static double sigmoid(double x) throws Exception{
+		return 1.0 / (1.0 + exp(-x));
+	}
+	
+	public static double[][] matSigmoid(double[][] a) throws Exception{
+		double[][] out = new double[a.length][a[0].length];
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[0].length; j++) {
+				out[i][j] = sigmoid(a[i][j]); 
+			}
+		}
+		return out;
+	}
 	
 	public static double[][] matExp(double[][] a) throws Exception{
 		double[][] a_exp = new double[a.length][a[0].length];
@@ -238,6 +253,54 @@ public class DeepMath {
 			}
 		}
 		return a_exp;
+	}
+	
+	public static double[][] matBinaryStep(double[][] a, double threshold) {
+		int rows = a.length;
+		int columns = a[0].length;
+		double[][] out = new double[rows][columns];
+		
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				if(a[i][j] > threshold) {
+					out[i][j] = 1.0;
+				}
+				else {
+					out[i][j] = 0.0;
+				}
+			}
+		}
+		return out;
+	}
+	
+	public static void matClip(double[][] a, double clip) {
+		int rows = a.length;
+		int columns = a[0].length;
+//		double[][] out = new double[rows][columns];
+		
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
+				if(a[i][j] > clip) {
+					a[i][j] = clip;
+				}
+			}
+		}
+//		return out;
+	}
+	
+	public static double accuracy(double[] input, double[] target) throws Exception{
+		int correct = 0;
+		
+		if(input.length != target.length) {
+			throw new Exception("Input length does not match target length. Input:"+input.length+"\t Target: "+ target.length);
+		}
+		
+		for(int i = 0; i < input.length; i++) {
+			if(input[i] == target[i]) {
+				correct++;
+			}
+		}
+		return correct / (double)input.length;
 	}
 	
 }

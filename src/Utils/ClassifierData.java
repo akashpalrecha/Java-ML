@@ -6,21 +6,25 @@ import java.util.Scanner;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 
-public class BinaryClassifierData {
-	public String path;
+public class ClassifierData {
+	
 	public String train_path;
 	public String label_path;
 	public double val_split;
-	public ArrayList<BinaryDataSample> DATA;
-	public ArrayList<BinaryDataSample> TRAIN_DATA;
-	public ArrayList<BinaryDataSample> VALID_DATA;
+	public ArrayList<DataSample> DATA;
+	public ArrayList<DataSample> TRAIN_DATA;
+	public ArrayList<DataSample> VALID_DATA;
 	
-	public BinaryClassifierData(double val_split) throws FileNotFoundException {
-		this.path = "Files/Binary-classifier-data/";
-		this.train_path = this.path + "processed_train.csv";
-		this.label_path = this.path + "train_labels.csv";
+	public ClassifierData(String train, String labels, double val_split) throws FileNotFoundException {
+//		this.path = "Files/Binary-classifier-data/";
+//		this.train_path = this.path + "processed_train.csv";
+//		this.label_path = this.path + "train_labels.csv";
+		this.train_path = train;
+		this.label_path = labels;
 		this.val_split = val_split;
-		DATA = new ArrayList<BinaryDataSample>();
+		DATA = new ArrayList<DataSample>();
+		TRAIN_DATA = new ArrayList<DataSample>();
+		VALID_DATA = new ArrayList<DataSample>();
 		this.populateData();
 		this.splitData();
 	}
@@ -37,11 +41,11 @@ public class BinaryClassifierData {
 			String[] x_str = train.next().split(",");
 			int y = Integer.parseInt(label.next());
 			
-			double[][] x = new double[0][x_str.length];
+			double[][] x = new double[1][x_str.length];
 			for(int i = 0; i < x_str.length; i++) {
 				x[0][i] = Double.parseDouble(x_str[i]);
 			}
-			this.DATA.add(new BinaryDataSample(x, y));
+			this.DATA.add(new DataSample(x, y));
 			
 		}
 		train.close();
@@ -52,7 +56,7 @@ public class BinaryClassifierData {
 		return this.DATA.size();
 	}
 	
-	public Iterator<BinaryDataSample> getDataIterator(String type) {
+	public Iterator<DataSample> getDataIterator(String type) {
 		if(type.equals("train")) {
 			return this.TRAIN_DATA.iterator();
 		}

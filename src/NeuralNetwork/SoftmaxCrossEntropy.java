@@ -6,8 +6,9 @@ import java.lang.Math;
 public class SoftmaxCrossEntropy extends LossFunction {
 
 	@Override
-	public double loss(double[][] input, double[] y) throws Exception {
+	public double loss(double[][] input, int[] y) throws Exception {
 		// TODO Auto-generated method stub
+		double eps = 1e-3;
 		int rows = input.length;
 		int columns = input[0].length;
 		this.input = input;
@@ -18,13 +19,27 @@ public class SoftmaxCrossEntropy extends LossFunction {
 		double[][] soft_out = new double[rows][columns];
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < columns; j++) {
-				soft_out[i][j] = this.input[i][j] / e_sums[i][0];
+				soft_out[i][j] = e_inp[i][j] / e_sums[i][0];
 			}
 		}
 		// Soft_out now contains softmax outputs
 		double logLoss = 0;
 		for(int i = 0; i < rows; i++) {
-			logLoss += Math.log(soft_out[i][(int)y[i]]);
+			logLoss -= Math.log(eps + soft_out[i][y[i]]);
+		}
+		for(int i = 0; i < rows; i++) {
+			int argmax = 0;
+			for(int j = 1; j < columns; j++) {
+				if( soft_out[i][j] > soft_out[i][j - 1]) {
+					argmax = j;
+				}
+			}
+			if(argmax == y[i]) {
+				this.correct_predictions.add(true);
+			}
+			else {
+				this.correct_predictions.add(false);
+			}
 		}
 		
 		logLoss = logLoss / (double)rows;
@@ -43,7 +58,7 @@ public class SoftmaxCrossEntropy extends LossFunction {
 		double[][] grad = this.probabilities.clone();
 		
 		for(int i = 0; i < rows; i ++) {
-			grad[i][(int)this.labels[i]] -= 1;
+			grad[i][this.labels[i]] -= 1;
 		}
 		
 		grad = DeepMath.matScale(grad, 1.0 / (double)rows);

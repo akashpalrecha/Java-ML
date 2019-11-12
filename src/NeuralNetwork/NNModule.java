@@ -1,5 +1,7 @@
 package NeuralNetwork;
 
+import Utils.DeepMath;
+
 public abstract class NNModule {
 	
 	public double[][] weights;
@@ -18,4 +20,11 @@ public abstract class NNModule {
 	
 	public abstract void step(double lr) throws Exception;
 
+	public abstract void zero_grad() throws Exception;
+	
+	public void clip_gradients(double clip) {
+		if(this.gradients_bias != null) DeepMath.matClip(this.gradients_bias, clip);
+		if(this.gradients_inp != null) DeepMath.matClip(this.gradients_inp, clip);
+		if(this.gradients_w != null) DeepMath.matClip(this.gradients_w, clip);
+	}
 }

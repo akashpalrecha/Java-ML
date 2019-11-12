@@ -43,6 +43,8 @@ public class ReLu extends NNModule {
 		}
 		
 		this.gradients_inp = relu_grad;
+		this.clip_gradients(1);
+		
 		return this.gradients_inp;
 	}
 
@@ -50,6 +52,10 @@ public class ReLu extends NNModule {
 	public void step(double lr) throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void zero_grad() throws Exception{
+		
 	}
 
 }

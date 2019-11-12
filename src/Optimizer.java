@@ -17,9 +17,11 @@ public class Optimizer {
 		this.data = data;
 	}
 	
-	public void fit(double lr, int epochs, int batch_size) throws Exception {
+	public double[] fit(double lr, int epochs, int batch_size) throws Exception {
 		int train_size = this.data.TRAIN_DATA.size();
 		int valid_size = this.data.VALID_DATA.size();
+		double train_acc = 0.0;
+		double valid_acc = 0.0;
 		
 		int cur_batch = 0;
 		DataSample input;
@@ -57,6 +59,7 @@ public class Optimizer {
 				}
 			}
 			System.out.println("Training Accuracy: "+lossFunc.accuracy());
+			train_acc = lossFunc.accuracy();
 			
 //			 Validation loop
 			lossFunc.initializePredictions();
@@ -69,8 +72,11 @@ public class Optimizer {
 			}
 			System.out.println("Epoch: "+(epoch+1)+"\tValidation Set accuracy: "+(lossFunc.accuracy()) + "\tLoss: "+averageLastNitems(loss, valid_size));
 			this.zero_grad();
+			valid_acc = lossFunc.accuracy();
 			
 		}
+		double[] metrics = {train_acc, valid_acc};
+		return metrics;
 	}
 	
 	public double averageLastNitems(ArrayList<Double> loss, int n) {
